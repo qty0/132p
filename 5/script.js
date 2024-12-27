@@ -3,28 +3,7 @@ let input = {
     rightPressed: false
 };
 
-// отслеживания нажатий клавиш
-document.addEventListener('keydown', function(event) { //нажата клавиша
-    switch (event.key) {
-        case 'a':
-            input.leftPressed = true;
-            break;
-        case 'd':
-            input.rightPressed = true;
-            break;
-    }
-});
 
-document.addEventListener('keyup', function(event) { //лавиша отпущена
-    switch (event.key) {
-        case 'a':
-            input.leftPressed = false;
-            break;
-        case 'd':
-            input.rightPressed = false;
-            break;
-    }
-});
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
