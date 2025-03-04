@@ -1,0 +1,241 @@
+/* Шрифты */
+@font-face {
+    font-family: 'Type';
+    src: url('fonts/type.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Type2';
+    src: url('fonts/type2.otf') format('opentype');
+}
+
+/* Основные стили */
+canvas {
+    border: 1px solid black;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Экранные элементы */
+#startScreen, #tutorialScreen, #gameOverScreen, #eatenScreen, #settingsWindow {
+    font-family: 'Type', sans-serif;
+}
+
+#startScreen button, #tutorialButtons button, #reassignOverlay {
+    font-family: 'Type2', sans-serif;
+}
+
+#startScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: black;
+    font-size: 48px;
+    z-index: 10;
+}
+
+#startScreen h1 {
+    margin-bottom: 20px;
+}
+
+#startScreen button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 45px;
+    cursor: pointer;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#startScreen button:hover {
+    background-color: #555;
+    transform: translateX(10px);
+}
+
+#tutorialScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(40, 40, 40, 0.9);
+    z-index: 15;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#tutorialVideo, #mori1Video, #mina1Video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 16;
+}
+
+#tutorialButtons {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 17;
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+#tutorialButtons button {
+    padding: 20px 40px;
+    font-size: 32px;
+    cursor: pointer;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+
+#tutorialButtons button:hover {
+    background-color: #555;
+    transform: translateX(10px);
+}
+
+#gameOverScreen, #eatenScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    font-size: 48px;
+    z-index: 10;
+    background-color: rgba(40, 40, 40, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 2px solid #666;
+}
+
+#gameOverScreen::before, #eatenScreen::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px solid #888;
+    border-radius: 5px;
+    pointer-events: none;
+}
+
+#restartButton, #restartButtonEaten {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#settingsWindow {
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+    width: 25%;
+    height: 60%;
+    background-color: rgba(40, 40, 40, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #666;
+}
+
+#settingsWindow::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px solid #888;
+    border-radius: 5px;
+    pointer-events: none;
+}
+
+.controlTile {
+    width: 90%;
+    padding: 15px;
+    background-color: #333;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+    border: 1px solid #555;
+    margin: 10px 0;
+}
+
+.controlTile:hover {
+    background-color: #444;
+    transform: translateX(10px);
+}
+
+.controlTile:active {
+    transform: scale(0.95);
+}
+
+#volumeControl {
+    width: 95%;
+    margin-top: 20px;
+}
+
+#volumeLabel {
+    font-size: 22px;
+    color: white;
+    margin-bottom: 10px;
+    margin-top: 40px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#toggleSoundControl {
+    background-color: green;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#reassignOverlay {
+    font-size: 22px;
+    position: absolute;
+    top: 90%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 20;
+    text-align: center;
+}

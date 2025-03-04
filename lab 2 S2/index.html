@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MinaMori v.0.0.6</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preload" href="fonts/type.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="fonts/type2.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="sound/click.mp3" as="audio" type="audio/mpeg">
+    <link rel="preload" href="Background.mp3" as="audio" type="audio/mpeg">
+    <link rel="preload" href="ui.mp3" as="audio" type="audio/mpeg">
+    <link rel="preload" href="udar.mp3" as="audio" type="audio/mpeg">
+    <link rel="preload" href="bottle.webm" as="video" type="video/webm">
+</head>
+<body>
+    <div>
+        <audio id="backgroundMusic" loop>
+            <source src="Background.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <audio id="uiSound">
+            <source src="ui.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <audio id="udarSound">
+            <source src="udar.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <audio id="clickSound">
+            <source src="click.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <div id="startScreen">
+        <h1>МинаMori</h1>
+        <button id="playButton">Играть</button>
+        <button id="tutorialButton">Обучение</button>
+    </div>
+    <div id="tutorialScreen" style="display: none;">
+        <video id="tutorialVideo" src="minamori1.webm" style="display: none;"></video>
+        <video id="mori1Video" src="mori1.webm" style="display: none;"></video>
+        <video id="mina1Video" src="mina1.webm" style="display: none;"></video>
+        <div id="tutorialButtons" style="display: none;">
+            <button id="minaButton">Мина</button>
+            <button id="moriButton">Мори</button>
+            <button id="backButton">Назад</button>
+        </div>
+    </div>
+    <div id="gameOverScreen" style="display: none;">
+        <h1 id="gameOverText">РАСПЛАВЛЕН</h1>
+        <button id="restartButton">Начать заново</button>
+    </div>
+    <div id="eatenScreen" style="display: none;">
+        <h1 id="eatenText">СОЖРАН</h1>
+        <button id="restartButtonEaten">Начать заново</button>
+    </div>
+    <div id="settingsWindow" style="display: none;">
+        <div class="controlTile" id="leftControl">Влево (A)</div>
+        <div class="controlTile" id="rightControl">Вправо (D)</div>
+        <div class="controlTile" id="jumpControl">Прыжок (Space)</div>
+        <div class="controlTile" id="musicOffControl">Выключить музыку (1)</div>
+        <div class="controlTile" id="musicOnControl">Включить музыку (2)</div>
+        <div class="controlTile" id="toggleSoundControl">Системные звуки вкл/выкл</div>
+        <div id="volumeLabel">Громкость музыки</div>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="0.5">
+    </div>
+    <div id="reassignOverlay" style="display: none;">
+        <div>Нажмите любую клавишу для переназначения</div>
+    </div>
+    <video id="bottleVideo" style="display: none; position: absolute; width: 100px; height: 100px;"></video>
+    <script src="script.js"></script>
+</body>
+</html>
