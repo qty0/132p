@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 3,4</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #87CEEB;
+        }
+        canvas {
+            display: block;
+            background: #87CEEB;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <script>
+        // Инициализация canvas
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 800;
+        canvas.height = 500;
+
+        // Конфигурация игры
+        const config = {
+            gravity: 0.5,
+            playerSpeed: 5,
+            jumpForce: 12,
+            cameraOffset: 200,
+            groundLevel: 400
+        };
+
+        // Игровые объекты
+        const player = {
+            x: 100,
+            y: config.groundLevel,
+            width: 30,
+            height: 50,
+            velX: 0,
+            velY: 0,
+            isJumping: false,
+            color: '#FF0000'
+        };
+
+        const platforms = [
+            { x: 300, y: 350, width: 200, height: 20, color: '#2ECC71' },
+            { x: 600, y: 300, width: 150, height: 20, color: '#2ECC71' },
+            { x: 900, y: 250, width: 200, height: 20, color: '#2ECC71' },
+            { x: 1200, y: 350, width: 200, height: 20, color: '#2ECC71' }
+        ];
+
+        // Фон и окружение
+        const backgroundElements = [
+            { x: 500, y: 380, width: 40, height: 20, color: '#8B4513' },
+            { x: 800, y: 380, width: 40, height: 20, color: '#8B4513' },
+            { x: 1100, y: 380, width: 40, height: 20, color: '#8B4513' },
+            { x: 1400, y: 380, width: 40, height: 20, color: '#8B4513' }
+        ];
+
+        // Управление
+        const keys = {
+            w: false, a: false, s: false, d: false, space: false
+        };
+
+        // Камера
+        const camera = {
+            x: 0,
+            y: 0
+        };
+
+        // Обработчики событий
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'KeyW') keys.w = true;
+            if (e.code === 'KeyA') keys.a = true;
+            if (e.code === 'KeyS') keys.s = true;
+            if (e.code === 'KeyD') keys.d = true;
+            if (e.code === 'Space') keys.space = true;
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (e.code === 'KeyW') keys.w = false;
+            if (e.code === 'KeyA') keys.a = false;
+            if (e.code === 'KeyS') keys.s = false;
+            if (e.code === 'KeyD') keys.d = false;
+            if (e.code === 'Space') keys.space = false;
+        });
+
+        // Функции игры
+        function updatePlayer() {
+            // Горизонтальное движение
+            player.velX = 0;
+            if (keys.a) player.velX = -config.playerSpeed;
+            if (keys.d) player.velX = config.playerSpeed;
+
+            // Прыжок
+            if (keys.space && !player.isJumping) {
+                player.velY = -config.jumpForce;
+                player.isJumping = true;
+            }
+
+            // Применение гравитации
+            player.velY += config.gravity;
+
+            // Обновление позиции
+            player.x += player.velX;
+            player.y += player.velY;
+
+            // Проверка столкновений с платформами
+            let onPlatform = false;
+            platforms.forEach(platform => {
+                if (player.x < platform.x + platform.width &&
+                    player.x + player.width > platform.x &&
+                    player.y + player.height >= platform.y &&
+                    player.y + player.height <= platform.y + platform.height / 2 &&
+                    player.velY > 0) {
+                    
+                    player.y = platform.y - player.height;
+                    player.velY = 0;
+                    player.isJumping = false;
+                    onPlatform = true;
+                }
+            });
+
+            // Проверка нахождения на земле
+            if (player.y >= config.groundLevel - player.height) {
+                player.y = config.groundLevel - player.height;
+                player.velY = 0;
+                player.isJumping = false;
+                onPlatform = true;
+            } else if (!onPlatform) {
+                player.isJumping = true;
+            }
+
+            // Проверка падения с платформы
+            if (!onPlatform && player.isJumping === false) {
+                player.isJumping = true;
+            }
+        }
+
+        function updateCamera() {
+            // Камера следует за игроком с отступом
+            if (player.x - camera.x < config.cameraOffset) {
+                camera.x = player.x - config.cameraOffset;
+            }
+            if (player.x - camera.x > canvas.width - config.cameraOffset) {
+                camera.x = player.x - (canvas.width - config.cameraOffset);
+            }
+
+            // Ограничение камеры
+            if (camera.x < 0) camera.x = 0;
+        }
+
+        function draw() {
+            // Очистка canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Рисование земли
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(0 - camera.x, config.groundLevel, 5000, canvas.height - config.groundLevel);
+
+            // Рисование фоновых элементов
+            backgroundElements.forEach(element => {
+                ctx.fillStyle = element.color;
+                ctx.fillRect(element.x - camera.x, element.y, element.width, element.height);
+            });
+
+            // Рисование платформ
+            platforms.forEach(platform => {
+                ctx.fillStyle = platform.color;
+                ctx.fillRect(platform.x - camera.x, platform.y, platform.width, platform.height);
+            });
+
+            // Рисование игрока
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x - camera.x, player.y, player.width, player.height);
+        }
+
+        // Игровой цикл
+        function gameLoop() {
+            updatePlayer();
+            updateCamera();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Запуск игры
+        gameLoop();
+    </script>
+</body>
+</html>
